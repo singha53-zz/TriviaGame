@@ -48,9 +48,47 @@ $(document).ready(function() {
       console.log(counter);
       $('#time').text(counter);
       if (counter === 0) {
-        answerPage();
+        $('#trivia').html(
+          `<p> You chose the incorrect answer!</p> <p> The correct answer is ${questions[questionCounter].correct}`
+        );
+        dispalyNextQuestion();
       }
     }, 1000);
+  }
+
+  $(document).on('click', '.answer', function() {
+    var chosenAnswer = $(this)
+      .text()
+      .split(':')[1]
+      .trim()
+      .toString();
+    console.log(chosenAnswer === questions[questionCounter].correct);
+    if (chosenAnswer === questions[questionCounter].correct) {
+      $('#trivia').html('<p> You chose the correct answer!</p>');
+    } else {
+      $('#trivia').html(
+        `<p> You chose the incorrect answer!</p> <p> The correct answer is ${questions[questionCounter].correct}</p>`
+      );
+    }
+    dispalyNextQuestion();
+  });
+
+  function dispalyNextQuestion() {
+    clearInterval(interval);
+    counter = 5;
+    questionCounter++
+    if (questionCounter < questions.length) {
+      setTimeout(function() {
+        displayQuestion();
+        timer();
+      }, 1000 * 2);
+    } else {
+      lastPage();
+    }
+  }
+
+  function lastPage() {
+    $('#trivia').html('<p> last page </p>');
   }
 
   // step2: time counts down from 30 to 0
