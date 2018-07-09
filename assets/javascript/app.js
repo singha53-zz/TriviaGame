@@ -17,9 +17,10 @@ $(document).ready(function() {
 
   var questionCounter = 0;
   var counter = 5;
+  var percent = 0;
 
   // step 1: upon clicking start button - hide start button and display first question and answer choices with Time remaining
-  $('#start').on('click', function() {
+  $(document).on('click','#start', function() {
     $(this).hide();
     displayQuestion();
     timer();
@@ -49,7 +50,9 @@ $(document).ready(function() {
       $('#time').text(counter);
       if (counter === 0) {
         $('#trivia').html(
-          `<p> You chose the incorrect answer!</p> <p> The correct answer is ${questions[questionCounter].correct}`
+          `<p> You chose the incorrect answer!</p> <p> The correct answer is ${
+            questions[questionCounter].correct
+          }`
         );
         dispalyNextQuestion();
       }
@@ -67,16 +70,22 @@ $(document).ready(function() {
       $('#trivia').html('<p> You chose the correct answer!</p>');
     } else {
       $('#trivia').html(
-        `<p> You chose the incorrect answer!</p> <p> The correct answer is ${questions[questionCounter].correct}</p>`
+        `<p> You chose the incorrect answer!</p> <p> The correct answer is ${
+          questions[questionCounter].correct
+        }</p>`
       );
     }
     dispalyNextQuestion();
   });
 
   function dispalyNextQuestion() {
+    // display progress bar
+    percent = Math.round((questionCounter+1)/questions.length*100)
+    $('.progress-bar').css('width', percent+'%').attr('aria-valuenow',percent).text(percent+'%');
+
     clearInterval(interval);
     counter = 5;
-    questionCounter++
+    questionCounter++;
     if (questionCounter < questions.length) {
       setTimeout(function() {
         displayQuestion();
@@ -88,8 +97,18 @@ $(document).ready(function() {
   }
 
   function lastPage() {
-    $('#trivia').html('<p> last page </p>');
+    $('#trivia').html(
+      '<p> last page </p><a id="reset" class="btn btn-primary btn-lg" href="#" role="button">Reset</a>'
+    );
   }
+
+  $(document).on('click','#reset', function() {
+    $('#trivia').html('')
+    $(this).hide();
+    questionCounter = 0
+    $('#start').show();
+    $('.progress-bar').css('width', '0%').attr('aria-valuenow', 0).text('0%');
+  });
 
   // step2: time counts down from 30 to 0
   // step3: if answer choice is clicked determine if answer is right or wrong - record wins/losses and display the correct answer to user for a short time before displaying the next question.
