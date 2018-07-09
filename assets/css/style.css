@@ -12,3 +12,8 @@ body {
 .container {
   padding-bottom: 30px;
 }
+
+.answer {
+  border: beige 2px solid;
+  padding: 5px;
+}
