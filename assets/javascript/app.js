@@ -16,11 +16,13 @@ $(document).ready(function() {
   ];
 
   var questionCounter = 0;
+  var counter = 5;
 
   // step 1: upon clicking start button - hide start button and display first question and answer choices with Time remaining
   $('#start').on('click', function() {
     $(this).hide();
     displayQuestion();
+    timer();
   });
 
   function displayQuestion() {
@@ -33,11 +35,22 @@ $(document).ready(function() {
     console.log(html);
 
     $('#trivia').html(
-      `<p> Time Remaining: 30 seconds </p> <h2> ${
+      `<p> Time Remaining: <span id='time'>30</span> seconds </p> <h2> ${
         questions[questionCounter].question
       }</h2> <p> ${html}`
     );
     console.log(questions[questionCounter].question);
+  }
+
+  function timer() {
+    interval = setInterval(function() {
+      counter--;
+      console.log(counter);
+      $('#time').text(counter);
+      if (counter === 0) {
+        answerPage();
+      }
+    }, 1000);
   }
 
   // step2: time counts down from 30 to 0
