@@ -1,4 +1,6 @@
 $(document).ready(function() {
+  $('#myChart').hide();
+
   // setup Question constructor (question, answers and correct)
   function Question(question, answers, correct, url) {
     (this.question = question),
@@ -39,7 +41,7 @@ $(document).ready(function() {
         'Factor Analysis (FA)',
         't-distributed Smoothed Network Embedding (t-SNE)'
       ],
-      'Non-negative Matrix Factorization',
+      'Non-negative Matrix Factorization (NMF)',
       'https://www.researchgate.net/profile/Walter_Senn/publication/23409793/figure/fig12/AS:214189328080930@1428078123967/Generation-of-V4-activity-via-nonnegative-matrix-factorization-NMF-of-facial-images.png'
     ),
     new Question(
@@ -78,20 +80,17 @@ $(document).ready(function() {
         questions[questionCounter].answers[key]
       }</h3>`;
     }
-    console.log(html);
 
     $('#trivia').html(
-      `<h4> Time Remaining: <span id='time'>30</span> seconds </h4> <hr> <h2> ${
+      `<h4> Time Remaining: <span id='time'>20</span> seconds </h4> <hr> <h2> ${
         questions[questionCounter].question
       }</h2> <p> ${html}`
     );
-    console.log(questions[questionCounter].question);
   }
 
   function timer() {
     interval = setInterval(function() {
       counter--;
-      console.log(counter);
       $('#time').text(counter);
       if (counter === 0) {
         losses++;
@@ -113,6 +112,8 @@ $(document).ready(function() {
       .split(':')[1]
       .trim()
       .toString();
+    console.log('chosen answer' + chosenAnswer);
+    console.log('correct answer' + questions[questionCounter].correct);
     console.log(chosenAnswer === questions[questionCounter].correct);
     if (chosenAnswer === questions[questionCounter].correct) {
       wins++;
@@ -151,24 +152,63 @@ $(document).ready(function() {
         timer();
       }, 1000 * 5);
     } else {
+      clearInterval(interval);
+      counter = time;
       setTimeout(lastPage, 5 * 1000);
     }
   }
 
   function lastPage() {
     $('#trivia').html(
-      `<h2> Summary of Trivia </h2><hr><h3> Wins: ${wins} </h3><h3> Losses: ${losses} </h3><a id="reset" class="btn btn-primary btn-lg" href="#" role="button">Reset</a>`
+      `<h2> Summary</h2><hr><h3> Wins: ${wins} </h3><h3> Losses: ${losses} </h3> <a id="reset" class="btn btn-primary btn-lg" href="#" role="button">Reset</a>`
     );
+    $('#myChart').show();
+    makeGraph(wins, losses);
   }
 
   $(document).on('click', '#reset', function() {
     $('#trivia').html('');
     $(this).hide();
-    questionCounter = 0;
     $('#start').show();
     $('.progress-bar')
       .css('width', '0%')
       .attr('aria-valuenow', 0)
       .text('0%');
+    $('#myChart').hide();
+
+    questionCounter = 0;
+    wins = 0;
+    losses = 0;
   });
+
+  function makeGraph(wins, losses) {
+    var ctx = document.getElementById('myChart');
+    var myChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Wins', 'Losses'],
+        datasets: [
+          {
+            data: [wins, losses],
+            backgroundColor: ["#FF5A5E", "#5AD3D1"],
+            hoverBackgroundColor: ["#FF5A5E", "#5AD3D1"]
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        legend: {
+          position: 'top'
+        },
+        title: {
+          display: true,
+          text: 'Trivia Summary'
+        },
+        animation: {
+          animateScale: true,
+          animateRotate: true
+        }
+      }
+    });
+  }
 });
