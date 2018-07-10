@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  // hide chart canvas
   $('#myChart').hide();
 
   // setup Question constructor (question, answers and correct)
@@ -58,6 +59,7 @@ $(document).ready(function() {
     )
   ];
 
+  // set intial values for variables
   var questionCounter = 0;
   var time = 20;
   var counter = time;
@@ -72,49 +74,14 @@ $(document).ready(function() {
     timer();
   });
 
-  function displayQuestion() {
-    html = '';
-    for (key in questions[questionCounter].answers) {
-      var index = parseInt(key) + 1;
-      html += `<h3 class = 'answer'>${index}: ${
-        questions[questionCounter].answers[key]
-      }</h3>`;
-    }
-
-    $('#trivia').html(
-      `<h4> Time Remaining: <span id='time'>20</span> seconds </h4> <hr> <h2> ${
-        questions[questionCounter].question
-      }</h2> <p> ${html}`
-    );
-  }
-
-  function timer() {
-    interval = setInterval(function() {
-      counter--;
-      $('#time').text(counter);
-      if (counter === 0) {
-        losses++;
-        $('#trivia').html(
-          `<h4> You chose the incorrect answer!</p> <p> The correct answer is ${
-            questions[questionCounter].correct
-          }</h4><img class = "img-thumbnail" src = ${
-            questions[questionCounter].url
-          }>`
-        );
-        dispalyNextQuestion();
-      }
-    }, 1000);
-  }
-
+  // step 2: upon clicking on answer choice check if answer is correct and respond accordingly
   $(document).on('click', '.answer', function() {
     var chosenAnswer = $(this)
       .text()
       .split(':')[1]
       .trim()
       .toString();
-    console.log('chosen answer' + chosenAnswer);
-    console.log('correct answer' + questions[questionCounter].correct);
-    console.log(chosenAnswer === questions[questionCounter].correct);
+
     if (chosenAnswer === questions[questionCounter].correct) {
       wins++;
       $('#trivia').html(
@@ -135,6 +102,59 @@ $(document).ready(function() {
     dispalyNextQuestion();
   });
 
+  // step 3: event handler for reset page
+  $(document).on('click', '#reset', function() {
+    $('#trivia').html('');
+    $(this).hide();
+    $('#start').show();
+    $('.progress-bar')
+      .css('width', '0%')
+      .attr('aria-valuenow', 0)
+      .text('0%');
+    $('#myChart').hide();
+
+    questionCounter = 0;
+    wins = 0;
+    losses = 0;
+  });
+
+  // function to display question and answer choices
+  function displayQuestion() {
+    html = '';
+    for (key in questions[questionCounter].answers) {
+      var index = parseInt(key) + 1;
+      html += `<h3 class = 'answer'>${index}: ${
+        questions[questionCounter].answers[key]
+      }</h3>`;
+    }
+
+    $('#trivia').html(
+      `<h4> Time Remaining: <span id='time'>20</span> seconds </h4> <hr> <h2> ${
+        questions[questionCounter].question
+      }</h2> <p> ${html}`
+    );
+  }
+
+  // function to add time counter and what to do if no answer is selected
+  function timer() {
+    interval = setInterval(function() {
+      counter--;
+      $('#time').text(counter);
+      if (counter === 0) {
+        losses++;
+        $('#trivia').html(
+          `<h4> You chose the incorrect answer!</p> <p> The correct answer is ${
+            questions[questionCounter].correct
+          }</h4><img class = "img-thumbnail" src = ${
+            questions[questionCounter].url
+          }>`
+        );
+        dispalyNextQuestion();
+      }
+    }, 1000);
+  }
+
+  // function to change question upon choosing an answer choice until all questions have been used
   function dispalyNextQuestion() {
     // display progress bar
     percent = Math.round(((questionCounter + 1) / questions.length) * 100);
@@ -158,6 +178,7 @@ $(document).ready(function() {
     }
   }
 
+  // function to display last page as well as summary results
   function lastPage() {
     $('#trivia').html(
       `<h2> Summary</h2><hr><h3> Wins: ${wins} </h3><h3> Losses: ${losses} </h3> <a id="reset" class="btn btn-primary btn-lg" href="#" role="button">Reset</a>`
@@ -166,21 +187,7 @@ $(document).ready(function() {
     makeGraph(wins, losses);
   }
 
-  $(document).on('click', '#reset', function() {
-    $('#trivia').html('');
-    $(this).hide();
-    $('#start').show();
-    $('.progress-bar')
-      .css('width', '0%')
-      .attr('aria-valuenow', 0)
-      .text('0%');
-    $('#myChart').hide();
-
-    questionCounter = 0;
-    wins = 0;
-    losses = 0;
-  });
-
+  // function to create donut plot
   function makeGraph(wins, losses) {
     var ctx = document.getElementById('myChart');
     var myChart = new Chart(ctx, {
@@ -190,8 +197,8 @@ $(document).ready(function() {
         datasets: [
           {
             data: [wins, losses],
-            backgroundColor: ["#FF5A5E", "#5AD3D1"],
-            hoverBackgroundColor: ["#FF5A5E", "#5AD3D1"]
+            backgroundColor: ['#FF5A5E', '#5AD3D1'],
+            hoverBackgroundColor: ['#FF5A5E', '#5AD3D1']
           }
         ]
       },

@@ -17,3 +17,7 @@ body {
   border: beige 2px solid;
   padding: 5px;
 }
+
+#title {
+  font-family: 'Ultra', serif;
+}
