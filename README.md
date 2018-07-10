@@ -23,7 +23,7 @@ cd TriviaGame/
 
 ## Scripting/Programming Languages
 
-- HTML, CSS (including Bootstrap), JavaScript (including jQuery and D3)
+- HTML, CSS (including Bootstrap), JavaScript (and libraries jQuery and Chart.js)
 
 ## Features
 
