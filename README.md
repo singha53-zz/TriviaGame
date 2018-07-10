@@ -6,13 +6,13 @@ A multiple choice trivia game based on machine learning questions. Click the Sta
 
 ## Screenshots
 
-<div> Main Page
+<div> <h3>Main Page</h3>
 <img src = "assets/Images/mainPage.png" width=500px, height=300px>
 </div>
-<div> Sample Question
+<div> <h3>Sample Question</h3>
 <img src = "assets/Images/sampleQuestion.png" width=500px, height=300px>
 </div>
-<div> Summary Page
+<div> <h3>Summary Page</h3>
 <img src = "assets/Images/summary.png" width=500px, height=300px>
 </div>
 
