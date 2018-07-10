@@ -7,13 +7,13 @@ A multiple choice trivia game based on machine learning questions. Click the Sta
 ## Screenshots
 
 <div> <h3>Main Page</h3>
-<img src = "assets/Images/mainPage.png" width=500px, height=300px>
+<img src = "assets/Images/mainPage.png" width=300px, height=200px>
 </div>
 <div> <h3>Sample Question</h3>
-<img src = "assets/Images/sampleQuestion.png" width=500px, height=300px>
+<img src = "assets/Images/sampleQuestion.png" width=300px, height=200px>
 </div>
 <div> <h3>Summary Page</h3>
-<img src = "assets/Images/summary.png" width=500px, height=300px>
+<img src = "assets/Images/summary.png" width=300px, height=200px>
 </div>
 
 ## Installing / Getting started
