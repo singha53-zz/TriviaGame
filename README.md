@@ -1,12 +1,13 @@
-# TriviaGame
-
-![Logo of the project](assets/images/starwarsGame.png)
-
 # Machine Learning Trivia Challenge
 
 > Rules
 
 A multiple choice trivia game based on machine learning questions. Click the Start button to begin. Choose the best answer from the listed options. Answer each question within 20 seconds. An unanswered question is counted as an incorrect answer. Answer all 5 questions to ace the challenge!
+
+## Screenshots
+
+![Logo of the project](assets/Images/mainPage.png)
+<img src = "assets/Images/mainPage.png" width="100px", height="200px">
 
 ## Installing / Getting started
 
