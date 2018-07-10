@@ -14,9 +14,9 @@ $(document).ready(function() {
   questions = [
     new Question(
       'Which of the following is not a machine learning algorithm?',
-      ['Random Forest', 'Elastic Net', 'Support Vector Machines', 'PageRank'],
-      'PageRank',
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/PageRank-hi-res.png/220px-PageRank-hi-res.png'
+      ['Random Forest', 'Elastic Net', 'Support Vector Machines', 'Bayes\' theorem'],
+      'Bayes\' theorem',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL2E9odL8zvts5JThdptZFZchrTQu206HCINaPwVDlJqR2P5mU'
     ),
     new Question(
       'What are the types of machine learning algorithms?',
@@ -64,8 +64,8 @@ $(document).ready(function() {
   var time = 20;
   var counter = time;
   var percent = 0;
-  var wins = 0;
-  var losses = 0;
+  var correct = 0;
+  var incorrect = 0;
 
   // step 1: upon clicking start button - hide start button and display first question and answer choices with Time remaining
   $(document).on('click', '#start', function() {
@@ -83,14 +83,14 @@ $(document).ready(function() {
       .toString();
 
     if (chosenAnswer === questions[questionCounter].correct) {
-      wins++;
+      correct++;
       $('#trivia').html(
         `<h4> You chose the correct answer!</h4> <hr>  <img class = "img-thumbnail" src = ${
           questions[questionCounter].url
         }>`
       );
     } else {
-      losses++;
+      incorrect++;
       $('#trivia').html(
         `<h4> You chose the incorrect answer!</h4> <hr> <h4> The correct answer is ${
           questions[questionCounter].correct
@@ -114,8 +114,8 @@ $(document).ready(function() {
     $('#myChart').hide();
 
     questionCounter = 0;
-    wins = 0;
-    losses = 0;
+    correct = 0;
+    incorrect = 0;
   });
 
   // function to display question and answer choices
@@ -141,7 +141,7 @@ $(document).ready(function() {
       counter--;
       $('#time').text(counter);
       if (counter === 0) {
-        losses++;
+        incorrect++;
         $('#trivia').html(
           `<h4> You chose the incorrect answer!</p> <p> The correct answer is ${
             questions[questionCounter].correct
@@ -181,22 +181,22 @@ $(document).ready(function() {
   // function to display last page as well as summary results
   function lastPage() {
     $('#trivia').html(
-      `<h2> Summary</h2><hr><h3> Wins: ${wins} </h3><h3> Losses: ${losses} </h3> <a id="reset" class="btn btn-primary btn-lg" href="#" role="button">Reset</a>`
+      `<hr><h3> Correct: ${correct} </h3><h3> Incorrect: ${incorrect} </h3> <a id="reset" class="btn btn-primary btn-lg" href="#" role="button">Reset</a>`
     );
     $('#myChart').show();
-    makeGraph(wins, losses);
+    makeGraph(correct, incorrect);
   }
 
   // function to create donut plot
-  function makeGraph(wins, losses) {
+  function makeGraph(correct, incorrect) {
     var ctx = document.getElementById('myChart');
     var myChart = new Chart(ctx, {
       type: 'doughnut',
       data: {
-        labels: ['Wins', 'Losses'],
+        labels: ['Correct', 'Incorrect'],
         datasets: [
           {
-            data: [wins, losses],
+            data: [correct, incorrect],
             backgroundColor: ['#FF5A5E', '#5AD3D1'],
             hoverBackgroundColor: ['#FF5A5E', '#5AD3D1']
           }

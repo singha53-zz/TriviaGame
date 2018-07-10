@@ -21,3 +21,16 @@ body {
 #title {
   font-family: 'Ultra', serif;
 }
+
+img {
+  height: 50%;
+  width: 50%;
+}
+
+.jumbotron {
+  padding: 2rem 1rem 0rem 1rem;
+}
+
+#start {
+  margin: 1rem;
+}
