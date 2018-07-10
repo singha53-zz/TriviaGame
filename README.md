@@ -6,8 +6,15 @@ A multiple choice trivia game based on machine learning questions. Click the Sta
 
 ## Screenshots
 
-![Logo of the project](assets/Images/mainPage.png)
-<img src = "assets/Images/mainPage.png" width="100px", height="200px">
+<div> Main Page
+<img src = "assets/Images/mainPage.png" width=500px, height=300px>
+</div>
+<div> Sample Question
+<img src = "assets/Images/sampleQuestion.png" width=500px, height=300px>
+</div>
+<div> Summary Page
+<img src = "assets/Images/summary.png" width=500px, height=300px>
+</div>
 
 ## Installing / Getting started
 
